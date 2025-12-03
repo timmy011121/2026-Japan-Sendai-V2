@@ -1,5 +1,5 @@
 
-import { DailyItinerary, FlightInfo, SpotType, ChecklistItem } from './types';
+import { DailyItinerary, FlightInfo, SpotType } from './types';
 
 export const FLIGHTS: FlightInfo[] = [
   {
@@ -859,103 +859,18 @@ export const TRIP_DATA: DailyItinerary[] = [
   }
 ];
 
-export const INITIAL_CHECKLIST: ChecklistItem[] = [
-  // MOST IMPORTANT (沒帶齊別想出去玩)
-  { id: 'imp-1', text: '護照', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-2', text: '國際駕照', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-3', text: '國際駕照譯本', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-4', text: '機票', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-5', text: '簽證', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-6', text: '錢包 (現金/提款卡)', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-7', text: '手機', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-8', text: '鑰匙', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-9', text: '飯店預約單', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-10', text: '機票證明', category: 'MOST IMPORTANT', checked: false },
-  { id: 'imp-11', text: '網卡 / Esim', category: 'MOST IMPORTANT', checked: false },
-
-  // Clothing (留意天氣)
-  { id: 'clo-1', text: '上衣', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-2', text: '褲子', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-3', text: '外套', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-4', text: '厚外套', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-5', text: '內衣', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-6', text: '內褲', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-7', text: '睡衣睡褲', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-8', text: '襪子', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-9', text: '鞋子', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-10', text: '拖鞋', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-11', text: '帽子', category: '衣物 (留意天氣)', checked: false },
-  { id: 'clo-12', text: '圍巾', category: '衣物 (留意天氣)', checked: false },
-
-  // Electronics
-  { id: 'ele-1', text: '行動電源', category: '電器', checked: false },
-  { id: 'ele-2', text: 'Type-C 充電線', category: '電器', checked: false },
-  { id: 'ele-3', text: 'Lighting 充電線', category: '電器', checked: false },
-  { id: 'ele-4', text: '手錶充電器', category: '電器', checked: false },
-  { id: 'ele-5', text: '快充頭', category: '電器', checked: false },
-  { id: 'ele-6', text: '耳機', category: '電器', checked: false },
-  { id: 'ele-7', text: '萬用插頭', category: '電器', checked: false },
-  { id: 'ele-8', text: '變壓器', category: '電器', checked: false },
-  { id: 'ele-9', text: 'iPad', category: '電器', checked: false },
-  { id: 'ele-10', text: '筆電', category: '電器', checked: false },
-  { id: 'ele-11', text: '轉換插頭', category: '電器', checked: false },
-
-  // Toiletries
-  { id: 'toi-1', text: '牙刷', category: '盥洗用品', checked: false },
-  { id: 'toi-2', text: '牙膏', category: '盥洗用品', checked: false },
-  { id: 'toi-3', text: '洗面乳', category: '盥洗用品', checked: false },
-  { id: 'toi-4', text: '棉花棒', category: '盥洗用品', checked: false },
-  { id: 'toi-5', text: '衛生棉', category: '盥洗用品', checked: false },
-  { id: 'toi-6', text: '刮鬍刀', category: '盥洗用品', checked: false },
-  { id: 'toi-7', text: '梳子', category: '盥洗用品', checked: false },
-
-  // Others
-  { id: 'oth-1', text: '眼鏡', category: '其他', checked: false },
-  { id: 'oth-2', text: '太陽眼鏡', category: '其他', checked: false },
-  { id: 'oth-3', text: '眼鏡盒', category: '其他', checked: false },
-  { id: 'oth-4', text: '水壺', category: '其他', checked: false },
-  { id: 'oth-5', text: '筆', category: '其他', checked: false },
-  { id: 'oth-6', text: '錶帶', category: '其他', checked: false },
-  { id: 'oth-7', text: '手機殼', category: '其他', checked: false },
-  { id: 'oth-8', text: '卡針', category: '其他', checked: false },
-  { id: 'oth-9', text: '暖暖包', category: '其他', checked: false },
-  { id: 'oth-10', text: '行李秤', category: '其他', checked: false },
-  { id: 'oth-11', text: '雨傘', category: '其他', checked: false },
-
-  // Ski Gear
-  { id: 'ski-1', text: '雪鏡', category: '滑雪用具', checked: false },
-  { id: 'ski-2', text: '面罩', category: '滑雪用具', checked: false },
-  { id: 'ski-3', text: '透氣內衣', category: '滑雪用具', checked: false },
-  { id: 'ski-4', text: '羽絨外套', category: '滑雪用具', checked: false },
-  { id: 'ski-5', text: '發熱衣', category: '滑雪用具', checked: false },
-  { id: 'ski-6', text: '雪褲', category: '滑雪用具', checked: false },
-  { id: 'ski-7', text: '厚襪子', category: '滑雪用具', checked: false },
-  { id: 'ski-8', text: '手套', category: '滑雪用具', checked: false },
-
-  // Camera Gear (Tim)
-  { id: 'cam-1', text: '相機', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-2', text: '相機電池', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-3', text: '鏡頭 (斟酌)', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-4', text: '記憶卡', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-5', text: '相機充電器', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-6', text: '小腳架', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-7', text: '大腳架', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-8', text: '怪手', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-9', text: '吸盤', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-10', text: '玻璃遮光罩', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-11', text: 'GO ULTRA', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-12', text: '樓上的配件', category: 'Tim的寶貝相機', checked: false },
-  { id: 'cam-13', text: '小工具', category: 'Tim的寶貝相機', checked: false },
-
-  // Cosmetics (Anna)
-  { id: 'cos-1', text: '防曬乳', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-2', text: '護唇膏', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-3', text: '化妝品', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-4', text: '卸妝用品', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-5', text: '乳液/護手霜', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-6', text: '臉部保養品', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-7', text: '隱形眼鏡', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-8', text: '香水', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-9', text: '飾品', category: 'Anna的寶貝化妝品', checked: false },
-  { id: 'cos-10', text: '拔毛夾', category: 'Anna的寶貝化妝品', checked: false },
+export const INITIAL_CHECKLIST = [
+  { id: 'c1', text: '護照 (有效期6個月以上)', category: '證件', checked: false },
+  { id: 'c2', text: 'Visit Japan Web QR Code (截圖)', category: '證件', checked: false },
+  { id: 'c3', text: '駕照日文譯本 (租車用)', category: '證件', checked: false },
+  { id: 'c4', text: '台灣駕照正本 (租車用)', category: '證件', checked: false },
+  { id: 'c5', text: '機票電子檔 / 訂位代號', category: '交通', checked: false },
+  { id: 'c6', text: '西瓜卡 (Suica) / PASMO (手機綁定)', category: '交通', checked: false },
+  { id: 'c7', text: '日幣現金 (約 ¥100,000)', category: '錢包', checked: false },
+  { id: 'c8', text: '信用卡 (海外高回饋)', category: '錢包', checked: false },
+  { id: 'c9', text: '網卡 (eSIM / 漫遊)', category: '通訊', checked: false },
+  { id: 'c10', text: '行動電源 & 充電線', category: '電器', checked: false },
+  { id: 'c11', text: '個人常備藥品 (感冒/腸胃)', category: '生活', checked: false },
+  { id: 'c12', text: '保暖衣物 (發熱衣/手套/毛帽)', category: '衣物', checked: false },
+  { id: 'c13', text: '防滑防水鞋 (雪地用)', category: '衣物', checked: false },
 ];
