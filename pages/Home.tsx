@@ -1,23 +1,14 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { GlassCard } from '../components/GlassCard';
 import { FLIGHTS } from '../constants';
-import { Plane, QrCode, ExternalLink, Calendar, MapPin, Sparkles, Timer, ArrowRight, Luggage } from 'lucide-react';
+import { Plane, QrCode, ExternalLink, Calendar, Timer, ArrowRight } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
-  const [daysLeft, setDaysLeft] = useState(0);
-
-  useEffect(() => {
-    const targetDate = new Date('2026-01-12T00:00:00');
-    const now = new Date();
-    const diffTime = targetDate.getTime() - now.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    setDaysLeft(diffDays > 0 ? diffDays : 0);
-  }, []);
+  const daysLeft = Math.max(0, Math.ceil((new Date('2026-01-12T00:00:00').getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
 
   return (
     <div className="space-y-8 pb-24 animate-fade-in">
-      
       {/* Countdown Section */}
       <section className="mt-6">
         <div className="flex items-center justify-between mb-4 px-2">
@@ -25,38 +16,20 @@ export const HomePage: React.FC = () => {
             <Timer size={18} className="text-cyan-400" /> 旅程倒數
           </h2>
         </div>
-
-        {/* Shortened Countdown Widget */}
-        <GlassCard className="!p-0 overflow-hidden relative group h-[120px] flex items-center border-white/10 shadow-lg shadow-cyan-900/10">
-           {/* Background Ambient Glows */}
-           <div className="absolute top-[-50%] right-[-10%] w-[200px] h-[200px] bg-cyan-500/10 rounded-full blur-[80px] animate-pulse pointer-events-none" />
-           <div className="absolute bottom-[-50%] left-[-10%] w-[200px] h-[200px] bg-purple-500/10 rounded-full blur-[80px] animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
-           
-           {/* Glass Reflection */}
-           <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
-
-           <div className="relative z-10 w-full px-6 flex items-center justify-between">
-              
-              {/* Left: Label */}
-              <div className="flex flex-col gap-1">
-                 <div className="flex items-center gap-2 opacity-80">
-                   <Sparkles size={14} className="text-cyan-300" />
-                   <span className="text-xs font-bold tracking-widest text-cyan-100 uppercase">距離啟程</span>
-                 </div>
-                 <div className="flex items-center gap-4 text-[10px] text-white/50 mt-1">
-                    <span className="flex items-center gap-1"><MapPin size={10} /> 日本東北</span>
-                    <span className="w-[1px] h-2 bg-white/20"></span>
-                    <span className="flex items-center gap-1 font-mono"><Calendar size={10} /> 2026.01.12</span>
-                 </div>
+        <GlassCard className="flex flex-row items-center justify-between px-6 py-6 relative overflow-hidden group hover:bg-white/10 transition-colors duration-500">
+           <div className="w-12 h-12 rounded-full bg-white/10 shadow-glass-thick flex items-center justify-center shrink-0 backdrop-blur-md">
+              <Timer className="text-cyan-400" size={24} />
+           </div>
+           <div className="flex-1 ml-4 flex flex-col justify-center">
+              <span className="text-xs text-white/50 uppercase tracking-widest font-medium mb-1">距離啟程</span>
+              <div className="flex flex-col">
+                 <span className="text-base font-bold text-white tracking-wide whitespace-nowrap">日本東北</span>
+                 <span className="text-sm font-medium text-white/60 tracking-wider">2026.01.12</span>
               </div>
-
-              {/* Right: Big Number */}
-              <div className="flex items-baseline gap-2">
-                <span className="text-6xl font-thin text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/60 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] font-sans tracking-tighter leading-none">
-                  {daysLeft}
-                </span>
-                <span className="text-xs font-bold tracking-[0.3em] text-white/40 mb-1">DAYS</span>
-              </div>
+           </div>
+           <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-thin text-white tabular-nums tracking-tighter leading-none drop-shadow-md">{daysLeft}</span>
+              <span className="text-[10px] font-bold text-white/30 tracking-[0.2em] uppercase">DAYS</span>
            </div>
         </GlassCard>
       </section>
@@ -68,114 +41,67 @@ export const HomePage: React.FC = () => {
             <Plane size={18} className="text-cyan-400" /> 航班資訊
           </h2>
         </div>
-        
-        <div className="space-y-4">
+        <div className="space-y-5">
           {FLIGHTS.map((flight, index) => {
             const isDepart = flight.type === 'Depart';
-            const originParts = flight.from.split(' ');
-            const destParts = flight.to.split(' ');
+            const [originCode, , originTerminal] = flight.from.split(' ');
+            const [destCode, , destTerminal] = flight.to.split(' ');
             const [departTime, arriveTime] = flight.time.split('-').map(t => t.trim());
-            const duration = flight.time.includes('?') ? '4h 00m' : '約 3.5小時';
-            
-            // Soft Liquid Glass Colors
-            const themeColor = isDepart ? 'text-cyan-200' : 'text-purple-200';
-            const gradientBg = isDepart 
-                ? 'bg-gradient-to-br from-cyan-400/10 via-white/5 to-transparent' 
-                : 'bg-gradient-to-br from-purple-400/10 via-white/5 to-transparent';
-            const glowColor = isDepart ? 'shadow-[0_8px_32px_rgba(6,182,212,0.15)]' : 'shadow-[0_8px_32px_rgba(168,85,247,0.15)]';
-            const borderColor = isDepart ? 'border-cyan-400/20' : 'border-purple-400/20';
-            
+            const laserGradient = isDepart ? 'from-transparent via-cyan-400 to-transparent' : 'from-transparent via-purple-400 to-transparent';
+
             return (
-              <GlassCard key={index} className={`!p-0 relative overflow-hidden group transition-all duration-500 border ${borderColor} hover:border-white/30 ${glowColor}`}>
-                
-                {/* Soft Liquid Background Effect */}
-                <div className={`absolute inset-0 ${gradientBg} opacity-80`} />
-                
-                {/* Glossy Top Edge Highlight */}
-                <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-70" />
-                
-                {/* Ambient Blur Orb */}
-                <div className={`absolute -right-10 -top-10 w-48 h-48 rounded-full blur-[70px] opacity-20 pointer-events-none ${isDepart ? 'bg-cyan-400' : 'bg-purple-400'}`} />
+              <GlassCard key={index} hideGloss={true} className="!p-5 relative group hover:bg-white/10 transition-colors duration-500">
+                <div className="flex justify-between items-start mb-8">
+                    <div className="flex gap-2 flex-wrap">
+                        <div className="flex items-center gap-1.5 bg-white/5 shadow-glass-thick rounded-full px-3 py-1 backdrop-blur-md">
+                            <Calendar size={10} className="text-white/60" />
+                            <span className="text-[10px] font-bold tracking-wide text-white/80">{flight.date}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 bg-white/5 shadow-glass-thick rounded-full px-3 py-1 backdrop-blur-md">
+                            <Plane size={10} className="text-white/60" />
+                            <span className="text-[10px] font-medium tracking-wide text-white/80">{flight.airline} {flight.flightNumber}</span>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-green-500/10 border border-green-500/20 rounded-full px-3 py-1 backdrop-blur-md shadow-[0_0_10px_rgba(74,222,128,0.1)]">
+                         <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_5px_rgba(74,222,128,0.8)]" />
+                         <span className="text-[10px] font-bold text-green-300 tracking-wide">準點</span>
+                    </div>
+                </div>
 
-                {/* Content Container */}
-                <div className="p-6 relative z-10 flex flex-col gap-6">
-                   
-                   {/* Header: Type, Airline & Date */}
-                   <div className="flex justify-between items-center border-b border-white/5 pb-3">
-                      <div className="flex items-center gap-3">
-                         <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border backdrop-blur-md shadow-sm ${isDepart ? 'bg-cyan-950/40 text-cyan-200 border-cyan-500/30' : 'bg-purple-950/40 text-purple-200 border-purple-500/30'}`}>
-                            {isDepart ? '去程航班' : '回程航班'}
-                         </span>
-                         <span className="text-sm font-bold text-white/90 tracking-wide drop-shadow-sm">{flight.airline}</span>
-                      </div>
-                      <div className="text-xs text-white/60 font-mono flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-full border border-white/5">
-                         <Calendar size={12} className="text-white/40" /> {flight.date}
-                      </div>
-                   </div>
+                <div className="flex items-center justify-between px-2 relative z-10">
+                    <div className="flex flex-col items-center">
+                        <span className="text-4xl font-thin tracking-widest text-white drop-shadow-lg font-sans">{originCode}</span>
+                        <div className="mt-2 flex flex-col items-center gap-0.5">
+                            <span className="text-lg font-medium text-white/80 -translate-y-[20%]">{departTime}</span>
+                            {originTerminal && <span className="text-[10px] text-white/40 font-bold bg-white/5 px-1.5 rounded border border-white/5">{originTerminal}</span>}
+                        </div>
+                    </div>
 
-                   {/* Main Route Section */}
-                   <div className="flex items-center justify-between relative">
-                      
-                      {/* Origin */}
-                      <div className="flex flex-col items-start w-1/4">
-                         <span className="text-4xl font-black text-white leading-none tracking-tighter drop-shadow-md">{originParts[0]}</span>
-                         <span className="text-xs text-white/50 mt-1 font-medium">{originParts[1]}</span>
-                         <span className={`text-lg font-bold font-mono mt-2 ${themeColor}`}>{departTime}</span>
-                         <span className="text-[10px] text-white/30 border border-white/10 px-1.5 rounded mt-1 bg-white/5">{originParts[2]}</span>
-                      </div>
-
-                      {/* Center: Flight Number & Graphic */}
-                      <div className="flex flex-col items-center justify-center flex-1 min-w-[180px] px-2 relative">
-                         
-                         {/* Flight Number - Reduced Size (2xl), No Italics */}
-                         <div className={`text-2xl font-black tracking-wider drop-shadow-md mb-3 z-10 ${themeColor}`}>
-                            {flight.flightNumber}
-                         </div>
-                         
-                         {/* Path Graphic */}
-                         <div className="w-full flex items-center gap-3 opacity-80">
-                            {/* Start Dot */}
-                            <div className="h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
-                            
-                            {/* Line & Plane */}
-                            <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent relative">
-                               {/* Plane Icon with Soft Gradient & Highlight - Size Unchanged */}
-                               <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-1 rounded-full border border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.3)] backdrop-blur-md ${isDepart ? 'bg-gradient-to-br from-cyan-500/30 to-black/20' : 'bg-gradient-to-br from-purple-500/30 to-black/20'}`}>
-                                  {/* Inner subtle glow ring */}
-                                  <div className="absolute inset-0 rounded-full border border-white/10" />
-                                  <Plane size={14} className={`text-white drop-shadow-md ${!isDepart ? '-scale-x-100' : ''}`} />
-                                </div>
+                    <div className="flex-1 mx-6 relative flex flex-col items-center justify-center">
+                        <div className="mb-3 bg-black/20 shadow-inner-deep rounded-full px-2 py-0.5 backdrop-blur-sm">
+                            <span className="text-[9px] text-white/50 tracking-widest uppercase font-bold">3H 50M</span>
+                        </div>
+                        <div className="w-full relative h-[20px] flex items-center">
+                            <div className={`absolute w-full h-[1px] bg-gradient-to-r ${laserGradient} opacity-50`} />
+                            <div className={`absolute w-full h-[1px] bg-gradient-to-r ${laserGradient} blur-[2px] opacity-80`} />
+                            <div className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-black/40 p-1.5 rounded-full backdrop-blur-md z-20 shadow-glass-thick ${isDepart ? 'shadow-[0_0_15px_rgba(34,211,238,0.4)]' : 'shadow-[0_0_15px_rgba(168,85,247,0.4)]'}`}>
+                                <Plane size={14} className={`${isDepart ? 'text-cyan-300' : 'text-purple-300'} ${!isDepart ? '-scale-x-100' : ''}`} fill="currentColor" fillOpacity={0.2} />
                             </div>
-                            
-                            {/* End Dot */}
-                            <div className="h-1.5 w-1.5 rounded-full bg-white/60" />
-                         </div>
+                            <div className="absolute left-0 w-1 h-1 rounded-full bg-white/80 shadow-[0_0_5px_white]" />
+                            <div className="absolute right-0 w-1 h-1 rounded-full bg-white/80 shadow-[0_0_5px_white]" />
+                        </div>
+                         <span className="mt-3 text-[9px] text-white/30 tracking-widest">ECONOMY</span>
+                    </div>
 
-                         {/* Duration Text */}
-                         <span className="text-xs text-white/50 mt-3 font-medium tracking-widest uppercase">{duration}</span>
-                      </div>
-
-                      {/* Destination */}
-                      <div className="flex flex-col items-end w-1/4 text-right">
-                         <span className="text-4xl font-black text-white leading-none tracking-tighter drop-shadow-md">{destParts[0]}</span>
-                         <span className="text-xs text-white/50 mt-1 font-medium">{destParts[1]}</span>
-                         <span className={`text-lg font-bold font-mono mt-2 ${themeColor}`}>{arriveTime}</span>
-                         <span className="text-[10px] text-white/30 border border-white/10 px-1.5 rounded mt-1 bg-white/5">{destParts[2]}</span>
-                      </div>
-                   </div>
-
+                    <div className="flex flex-col items-center">
+                        <span className="text-4xl font-thin tracking-widest text-white drop-shadow-lg font-sans">{destCode}</span>
+                         <div className="mt-2 flex flex-col items-center gap-0.5">
+                            <span className="text-lg font-medium text-white/80 -translate-y-[20%]">{arriveTime}</span>
+                             {destTerminal && <span className="text-[10px] text-white/40 font-bold bg-white/5 px-1.5 rounded border border-white/5">{destTerminal}</span>}
+                        </div>
+                    </div>
                 </div>
-
-                {/* Footer Strip */}
-                <div className="bg-gradient-to-r from-black/10 via-white/5 to-black/10 border-t border-white/5 px-6 py-3 flex justify-between items-center text-[10px] text-white/40 font-medium tracking-wider">
-                   <div className="flex items-center gap-2">
-                      <Luggage size={12} className="text-white/30" />
-                      <span>託運: 20KG</span>
-                   </div>
-                   <div className="flex items-center gap-1.5">
-                      <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5">Economy</span>
-                   </div>
-                </div>
+                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r ${laserGradient} opacity-20`} />
               </GlassCard>
             );
           })}
@@ -187,13 +113,8 @@ export const HomePage: React.FC = () => {
         <h2 className="text-lg font-semibold text-white/90 mb-4 px-2 tracking-wide flex items-center gap-2">
            <ExternalLink size={18} className="text-cyan-400" /> 快速連結
         </h2>
-        <a 
-          href="https://www.vjw.digital.go.jp/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block group"
-        >
-          <GlassCard className="flex items-center justify-between active:scale-[0.98] transition-all hover:bg-white/10 border-white/10 group-hover:border-pink-500/30">
+        <a href="https://www.vjw.digital.go.jp/" target="_blank" rel="noopener noreferrer" className="block group">
+          <GlassCard hideGloss={true} className="flex items-center justify-between active:scale-[0.98] transition-all hover:bg-white/10 group-hover:shadow-[0_0_20px_rgba(236,72,153,0.1)]">
             <div className="flex items-center space-x-4">
               <div className="bg-pink-500/10 p-3.5 rounded-2xl text-pink-400 border border-pink-500/20 shadow-[0_0_15px_rgba(236,72,153,0.15)] group-hover:scale-110 transition-transform">
                 <QrCode size={24} />

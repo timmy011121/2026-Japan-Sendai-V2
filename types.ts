@@ -1,3 +1,4 @@
+
 export enum SpotType {
   SIGHTSEEING = '景點',
   RESTAURANT = '餐廳',
@@ -29,7 +30,13 @@ export interface DailyItinerary {
     condition: string;
     icon: string; // Emoji or icon name
   };
-  spots: Spot[];
+  spots: Spot[]; // Default spots (or shared spots if used in mixed mode)
+  plans?: { // Optional alternative plans (e.g., Plan A / Plan B)
+    [key: string]: {
+      label: string;
+      spots: Spot[]; // The complete list of spots for this plan
+    };
+  };
   hotel: {
     name: string;
     address: string;

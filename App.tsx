@@ -4,6 +4,9 @@ import { HomePage } from './pages/Home';
 import { ItineraryPage } from './pages/Itinerary';
 import { ChecklistPage } from './pages/Checklist';
 import { InfoPage } from './pages/Info';
+import { Snowflake } from 'lucide-react';
+
+const BACKGROUND_NOISE_URL = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`;
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -29,17 +32,21 @@ const App: React.FC = () => {
         <div className="absolute top-[40%] left-[30%] w-[300px] h-[300px] bg-blue-900/20 rounded-full blur-[90px] animate-pulse" style={{ animationDelay: '4s' }}></div>
         
         {/* Noise Texture (Optional for glass realism) */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: BACKGROUND_NOISE_URL }}></div>
       </div>
 
       {/* Main Content Area */}
       <main className="relative z-10 max-w-md mx-auto min-h-screen p-4 flex flex-col">
-        {/* Global Header */}
-        <header className="px-2 pt-4 pb-2">
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
+        {/* Global Header - Apple Vision Pro Large Title Style */}
+        <header className="flex flex-col gap-2 px-2 pt-6 pb-6 mb-2">
+          <h1 className="text-4xl font-black tracking-tight text-white drop-shadow-lg leading-tight">
             日本東北之旅
           </h1>
-          <p className="text-white/60 text-lg">2026 冬季</p>
+          
+          <div className="inline-flex items-center self-start gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/10 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]">
+            <Snowflake size={12} className="text-cyan-200" />
+            <span className="text-xs font-medium tracking-widest text-white/80">2026 冬季</span>
+          </div>
         </header>
 
         {renderContent()}
@@ -47,17 +54,6 @@ const App: React.FC = () => {
 
       {/* Bottom Navigation */}
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      {/* Global Styles for Animations */}
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.4s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 };
